@@ -1,81 +1,45 @@
 package conta;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import conta.model.Conta;
 import conta.model.ContaCorrente;
 import conta.model.ContaPoupanca;
-import conta.util.cores;
+import conta.util.Cores;
 
 public class Menu {
 
 	public static void main(String[] args) {
 
-		Scanner sc = new Scanner(System.in);
-		int option;
+		Scanner leia = new Scanner(System.in);
 
-		// Criamo o objeto Conta C1
-		Conta c1 = new Conta(1, 123, 1, "Luan Silva", 500000.0f);
-
-		// Visualizamos os dados da conta C1
-		c1.visualizar();
-
-		// Fizemos uma alteração no saldo de C1
-		c1.setSaldo(700000.0f);
-		System.out.println("saldo alterado para: \n\n" + c1.getSaldo());
 		
-		// Fizemo um sanque na Conta c1
-		c1.sacar(650000.0f);
-
-		// Fizemos um deposito na conta C1
-		c1.depositar(250000.0f);
-
-		// Vizualizamos o saldo da conta C1
-		c1.visualizar();
-		System.out.println("Seu novo saldo é: ");
-		System.out.println(c1.getSaldo());
-
-		// Criamo o objeto Conta C2
-		Conta c2 = new Conta(2, 123, 1, "Ivone Maria", 100000.0f);
-
-		// Visualizamos a conta C2
-		c2.visualizar();
-
-		// Fizemos um saque da conta C2
-		if (c2.sacar(5000.0f))
-			System.out.println("\n\nO seu novo saldo é: ");
-		System.out.println(+c2.getSaldo());
-
 		// Teste da Classe Conta Corrente
-		Conta c3 = new ContaCorrente(3,123, 1, "Maria Clemencia", 30000.0f, 1000.0f);
+		Conta c3 = new ContaCorrente(3, 123, 1, "Maria Clemencia", 30000.0f, 1000.0f);
 
 		// Vizualização da Classe Conta Corrente c/ saque
 		c3.visualizar();
-		c3.sacar(32000.0f);
-		c3.visualizar();
-		c3.depositar(50000.0f);
-		c3.visualizar();
+		;
 
 		// Teste da Classe Conta Poupança
 		ContaPoupanca cp1 = new ContaPoupanca(4, 123, 2, "Francisco Geraldo", 100000.0f, 15);
 
 		// Vizualização da Classe Conta Poupanca
 		cp1.visualizar();
-		
-		cp1.sacar(1000.0f);
-		cp1.visualizar();
-		cp1.depositar(5000.0f);
-		cp1.visualizar();
+
+		int opcao, numero, agencia, tipo, aniversario, numeroDestino;
+		float saldo, limite, valor;
+		String titular;
 
 		while (true) {
-			
-			
-			System.out.println(cores.TEXT_WHITE_UNDERLINED + cores.ANSI_RED_BACKGROUND
+
+			System.out.println(Cores.TEXT_WHITE_UNDERLINED + Cores.ANSI_RED_BACKGROUND
 					+ "----------------------------------------------------------------------------------");
 			System.out.println("                            BANCO FOICE E MARTELO                                 ");
 			System.out.println("----------------------------------------------------------------------------------");
 			// 82 linhas
-			System.out.println(cores.TEXT_WHITE_UNDERLINED + cores.ANSI_RED_BACKGROUND
+			System.out.println(Cores.TEXT_WHITE_UNDERLINED + Cores.ANSI_RED_BACKGROUND
 					+ "                                                                                  ");
 			System.out.println("                                1 - Criar Conta                                   ");
 			System.out.println("                                2 - Listar todas as contas                        ");
@@ -90,58 +54,174 @@ public class Menu {
 			System.out.println("Entre com a opção desejada:                                                       ");
 			System.out.println("                                                                                  ");
 
-			option = sc.nextInt();
+			opcao = leia.nextInt();
 
-			if (option == 9) {
-				System.out.println("\nBanco Foice e Martelo - Aqui o que é Seu é Nosso!");
-				sc.close();
+			if (opcao == 9) {
+				System.out.println("\nBanco do Brazil com Z - O seu Futuro começa aqui!");
+				leia.close();
 				System.exit(0);
 			}
 
-			switch (option) {
+			switch (opcao) {
 			case 1:
-				System.out.println("Criar Conta: ");
+				System.out.println("Criar Conta\n\n");
 
-				System.out.println("Conta criada com sucesso!");
-			break;
-				
-			case 2:
-				System.out.println("Listar todas as contas: ");
+				System.out.println("Número da Agencia: ");
+				agencia = leia.nextInt();
 
-			break;
-			
-			case 3:
-				System.out.println("Buscar Conta por Número: ");
+				System.out.println("Nome do Titular: ");
+				leia.skip("\\R?");
+				titular = leia.nextLine();
 
-			break;
-			case 4:
-				System.out.println("Atualizar Dados da Conta: ");
+				do {
+					System.out.println("Tipo da Conta (1-CC / 2-CP): ");
+					tipo = leia.nextInt();
+				} while (tipo < 1 && tipo > 2);
 
-			break;
-			case 5:
-				System.out.println("Apagar Conta: ");
+				System.out.println("Saldo da Conta: ");
+				saldo = leia.nextFloat();
 
-			break;
-			case 6:
-				System.out.println("Sacar: ");
+				switch (tipo) {
+				case 1 -> {
+					System.out.println("Limite da Conta Corrente: ");
+					limite = leia.nextFloat();
+					ContaCorrente cc = new ContaCorrente(0, agencia, tipo, titular, saldo, limite);
+					cc.visualizar();
+				}
+				case 2 -> {
+					System.out.println("Aniversário da Conta Poupança: ");
+					aniversario = leia.nextInt();
+					ContaPoupanca cp = new ContaPoupanca(0, agencia, tipo, titular, saldo, aniversario);
+					cp.visualizar();
+				}
+				}
 
-			break;
-			case 7:
-				System.out.println("Depósito: ");
-
-			break;
-			case 8:
-				System.out.println("Transferir: ");
-
-			break;
-			default:
-					System.out.println("\nOpção inválida! Por favor digite novamente: ");
+				keyPress();
 
 				break;
-			}
+			case 2:
+				System.out.println("Listar todas as Contas\n\n");
 
+				keyPress();
+				break;
+			case 3:
+				System.out.println("Consultar dados da Conta - por número\n\n");
+
+				System.out.println("Número da Conta: ");
+				numero = leia.nextInt();
+
+				keyPress();
+				break;
+			case 4:
+				System.out.println("Atualizar dados da Conta\n\n");
+
+				System.out.println("Número da Conta: ");
+				numero = leia.nextInt();
+
+				// Condicional para checar se a conta existe
+
+				System.out.println("Número da Agencia: ");
+				agencia = leia.nextInt();
+
+				System.out.println("Nome do Titular: ");
+				leia.skip("\\R?");
+				titular = leia.nextLine();
+
+				// Busca do tipo
+				tipo = 0;
+
+				System.out.println("Saldo da Conta: ");
+				saldo = leia.nextFloat();
+
+				switch (tipo) {
+				case 1 -> {
+					System.out.println("Limite da Conta Corrente: ");
+					limite = leia.nextFloat();
+					ContaCorrente cc = new ContaCorrente(0, agencia, tipo, titular, saldo, limite);
+					cc.visualizar();
+				}
+				case 2 -> {
+					System.out.println("Aniversário da Conta Poupança: ");
+					aniversario = leia.nextInt();
+					ContaPoupanca cp = new ContaPoupanca(0, agencia, tipo, titular, saldo, aniversario);
+					cp.visualizar();
+				}
+				}
+
+				keyPress();
+				break;
+			case 5:
+				System.out.println("Apagar a Conta\n\n");
+
+				System.out.println("Número da Conta: ");
+				numero = leia.nextInt();
+
+				// Chamada para o Método Deletar
+
+				keyPress();
+				break;
+			case 6:
+				System.out.println("Saque\n\n");
+
+				System.out.println("Número da Conta: ");
+				numero = leia.nextInt();
+
+				System.out.println("Valor do Saque: ");
+				valor = leia.nextFloat();
+
+				// Chamada para o Método Sacar
+
+				keyPress();
+				break;
+			case 7:
+				System.out.println("Depósito\n\n");
+
+				System.out.println("Número da Conta: ");
+				numero = leia.nextInt();
+
+				System.out.println("Valor do Depósito: ");
+				valor = leia.nextFloat();
+
+				// Chamada para o Método Depositar
+
+				keyPress();
+				break;
+			case 8:
+				System.out.println("Transferência entre Contas\n\n");
+
+				System.out.println("Número da Conta - Origem: ");
+				numero = leia.nextInt();
+
+				System.out.println("Número da Conta - Destino: ");
+				numeroDestino = leia.nextInt();
+
+				System.out.println("Valor da Transferência: ");
+				valor = leia.nextFloat();
+
+				// Chamada para o Método Transferir
+
+				keyPress();
+				break;
+			default:
+				System.out.println("\nOpção Inválida!\n");
+				keyPress();
+				break;
+			}
 		}
 
 	}
 
+	public static void keyPress() {
+
+		try {
+
+			System.out.println(Cores.TEXT_RESET + "\n\nPressione Enter para Continuar...");
+			System.in.read();
+
+		} catch (IOException e) {
+
+			System.out.println("Você pressionou uma tecla diferente de enter!");
+
+		}
+	}
 }

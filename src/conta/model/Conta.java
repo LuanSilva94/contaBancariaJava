@@ -1,6 +1,6 @@
 package conta.model;
 
-public class Conta {
+public abstract class Conta {
 	private int numero;
 	private int agencia;
 	private int tipo;
@@ -88,7 +88,7 @@ public class Conta {
 		System.out.println("     DADOS DA CONTA      ");
 		System.out.println("*************************");
 		System.out.println("Número da Conta: " + this.numero);
-		System.out.println("A	gência: " + this.agencia);
+		System.out.println("Agência: " + this.agencia);
 		System.out.println("Tipo da conta: " + tipo);
 		System.out.println("Titular: " + this.titular);
 		System.out.println("Saldo: " + this.saldo);
