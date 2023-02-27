@@ -193,9 +193,11 @@ public class Menu {
 				valor = leia.nextFloat();
 
 				// Chamada para o Método Sacar
+				contas.sacar(numero, valor);
 
 				keyPress();
 				break;
+				
 			case 7:
 				System.out.println("Depósito\n\n");
 
@@ -206,9 +208,11 @@ public class Menu {
 				valor = leia.nextFloat();
 
 				// Chamada para o Método Depositar
+				contas.depositar(numero, valor);
 
 				keyPress();
 				break;
+				
 			case 8:
 				System.out.println("Transferência entre Contas\n\n");
 
@@ -222,13 +226,16 @@ public class Menu {
 				valor = leia.nextFloat();
 
 				// Chamada para o Método Transferir
+				contas.transferir(numero, numeroDestino, valor);
 
 				keyPress();
 				break;
+				
 			default:
 				System.out.println("\nOpção Inválida!\n");
 				keyPress();
 				break;
+				
 			}
 		}
 
